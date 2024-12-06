@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Especial</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .carta {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-width: 500px;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .carta.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        .contenido {
+            display: none;
+        }
+
+        .carta.abierta .contenido {
+            display: block;
+        }
+
+        .carta.abierta .portada {
+            display: none;
+        }
+
+        .corazon {
+            color: red;
+            font-size: 24px;
+            display: inline-block;
+            animation: latido 1s infinite;
+        }
+
+        @keyframes latido {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="carta">
+        <div class="portada">
+            <h1>Haz clic para abrir <span class="corazon">❤</span></h1>
+        </div>
+        <div class="contenido">
+            <h1>Para ti  <span class="corazon">❤</span></h1>
+                <p>Querida Kelly</p>
+                <p>quiero que sepas que desde el día que te conocí, algo en mí cambió. Esta carta es solo una pequeña muestra de todo lo que siento por ti. Tus ojos, tu sonrisa y tu forma de ser han llenado mi vida de luz y alegría.</p>
+                <p>Cada día pienso en ti, y en cómo sería compartir más momentos juntos. Me encanta tu sonrisa ,porque ilumuna mi dias,y adoro tu forma de ser, tan especial y tan bella. </p>
+                <p>Espero que esta carta te saque una sonrisa, porque es un reflejo de lo que siento al verte sonreír. Quiero que sepas que siempre estaré aquí para ti,</p>
+            <p>
+                Con todo mi cariño<br>
+                Fabian
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carta = document.querySelector('.carta');
+            
+            // Efecto de entrada
+            setTimeout(() => {
+                carta.style.transform = 'translateY(50px) rotate(-5deg)';
+                carta.classList.add('visible');
+            }, 500);
+
+            // Abrir la carta al hacer clic
+            carta.addEventListener('click', function() {
+                carta.classList.toggle('abierta');
+            });
+
+            // Efecto al pasar el mouse
+            carta.addEventListener('mousemove', function(e) {
+                const rect = carta.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const rotateX = (y / rect.height - 0.5) * 20;
+                const rotateY = (x / rect.width - 0.5) * 20;
+                
+                carta.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            // Restaurar posición original
+            carta.addEventListener('mouseleave', function() {
+                carta.style.transform = 'rotate(0)';
+            });
+        });
+    </script>
+</body>
+</html>
